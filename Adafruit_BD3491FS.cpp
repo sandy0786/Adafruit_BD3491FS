@@ -152,7 +152,7 @@ void Adafruit_BD3491FS::setBassGain(BD3491FS_Level level, bool cut) {
   }
   Adafruit_I2CRegister bass_gain =
       Adafruit_I2CRegister(i2c_dev, BD3491FS_BASS_GAIN, 1);
-  bass_gain.write((cut << 7) & (level << 1));
+  bass_gain.write((cut ? (1 << 7) : 0) | level);
 }
 
 /**************************************************************************/
@@ -171,5 +171,44 @@ void Adafruit_BD3491FS::setTrebleGain(BD3491FS_Level level, bool cut) {
   }
   Adafruit_I2CRegister treble_gain =
       Adafruit_I2CRegister(i2c_dev, BD3491FS_TREBLE_GAIN, 1);
-  treble_gain.write((cut << 7) & (level << 1));
+  treble_gain.write((cut ? (1 << 7) : 0) | level);
+}
+
+/**************************************************************************/
+/*!
+    @brief Enables surround.
+    @param  level
+            The amount of gain. Must be a `BD3491FS_Surround`
+    @param  state
+            ON or OFF. Set true to ON, or false to OFF
+*/
+/**************************************************************************/
+void Adafruit_BD3491FS::setSurroundGain(BD3491FS_Surround level, bool state) {
+  Adafruit_I2CRegister surround =
+      Adafruit_I2CRegister(i2c_dev, BD3491FS_SURROUND, 1);
+  surround.write((state ? (1 << 7) : 0) | (level & 0b01111111));
+}
+
+/**************************************************************************/
+/*!
+    @brief Mutes the input.
+*/
+/**************************************************************************/
+void Adafruit_BD3491FS::mute() {
+  Adafruit_I2CRegister current_input =
+      Adafruit_I2CRegister(i2c_dev, BD3491FS_INPUT_SELECTOR, 1);
+  current_input.write(BD3491FS_INPUT_MUTE);
+}
+
+/**************************************************************************/
+/*!
+    @brief Unmutes an input channel.
+    @param  input
+            The new input to be selected to unmute. Must be a `BD3491FS_Input`
+*/
+/**************************************************************************/
+void Adafruit_BD3491FS::unMute(BD3491FS_Input input) {
+  Adafruit_I2CRegister current_input =
+      Adafruit_I2CRegister(i2c_dev, BD3491FS_INPUT_SELECTOR, 1);
+  current_input.write(input);
 }

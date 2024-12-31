@@ -56,6 +56,13 @@ typedef enum _level {
   BD3491FS_GAIN_20DB = 0x0A ///< 20dB
 } BD3491FS_Level;
 
+typedef enum _surround_gain {
+  BD3491FS_SURR_OFF = 0, ///< OFF
+  BD3491FS_SURR_LOW = 5, ///< Low
+  BD3491FS_SURR_MIDDLE = 10, ///< Middle
+  BD3491FS_SURR_HIGH = 15, ///< High
+} BD3491FS_Surround;
+
 /*!
  *    @brief  Class that stores state and functions for interacting with
  *            BD3491FS Current and Power Sensor
@@ -72,6 +79,9 @@ public:
   void setVolumeCh2(uint8_t attenuation);
   void setBassGain(BD3491FS_Level level, bool cut);
   void setTrebleGain(BD3491FS_Level level, bool cut);
+  void setSurroundGain(BD3491FS_Surround gain, bool state);
+  void mute(void);
+  void unMute(BD3491FS_Input input);
 
   Adafruit_I2CRegister *CurrentInput; ///< BusIO Register for INTERRUPT_STATUS
 
