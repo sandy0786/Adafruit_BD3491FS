@@ -179,11 +179,13 @@ void Adafruit_BD3491FS::setTrebleGain(BD3491FS_Level level, bool cut) {
     @brief Enables surround.
     @param  level
             The amount of gain. Must be a `BD3491FS_Surround`
-    @param  state
-            ON or OFF. Set true to ON, or false to OFF
 */
 /**************************************************************************/
-void Adafruit_BD3491FS::setSurroundGain(BD3491FS_Surround level, bool state) {
+void Adafruit_BD3491FS::setSurroundGain(BD3491FS_Surround_Level level) {
+  bool state = false;
+  if(level != BD3491FS_SURR_OFF) {
+    state = true;
+  }
   Adafruit_I2CRegister surround =
       Adafruit_I2CRegister(i2c_dev, BD3491FS_SURROUND, 1);
   surround.write((state ? (1 << 7) : 0) | (level & 0b01111111));

@@ -61,7 +61,7 @@ typedef enum _surround_gain {
   BD3491FS_SURR_LOW = 5, ///< Low
   BD3491FS_SURR_MIDDLE = 10, ///< Middle
   BD3491FS_SURR_HIGH = 15, ///< High
-} BD3491FS_Surround;
+} BD3491FS_Surround_Level;
 
 /*!
  *    @brief  Class that stores state and functions for interacting with
@@ -79,7 +79,7 @@ public:
   void setVolumeCh2(uint8_t attenuation);
   void setBassGain(BD3491FS_Level level, bool cut);
   void setTrebleGain(BD3491FS_Level level, bool cut);
-  void setSurroundGain(BD3491FS_Surround gain, bool state);
+  void setSurroundGain(BD3491FS_Surround_Level gain);
   void mute(void);
   void unMute(BD3491FS_Input input);
 
